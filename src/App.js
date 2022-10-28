@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import Navbar from './components/Navbar';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import Home from './components/Home';
+import Users from './pages/Users';
+import CashFlow from './pages/CashFlow';
+import LoginPage from './pages/LoginPage';
 function App() {
+
+  const [currentUser,setCurrentUser] = useState([]);
+  const [user,setUser] = useState(false)
+
+  const RequireAuth = ({children}) =>{
+    return user ? children : <Navigate to='/LoginPage'/>
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+<div className='App'>
+<BrowserRouter>
+<Navbar/>
+<Routes>
+  <Route path="/" element={<RequireAuth><Home/></RequireAuth>} />
+  <Route path="/Users" element={<RequireAuth><Users /></RequireAuth>} />
+  <Route path="/LoginPage" element={<LoginPage setUser={setUser}/>} />
+  <Route path="/Cashflow" element={<RequireAuth><CashFlow /></RequireAuth>} />
+</Routes>
+</BrowserRouter>
+</div>
+
+
+
+
+
+
+
+
+    
+  )
 }
 
 export default App;
