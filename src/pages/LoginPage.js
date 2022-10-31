@@ -35,11 +35,9 @@ function LoginPage(props) {
     props.setUser(true)
 
     navigate('/')
-
-
-
   })
   .catch((error) => {
+    console.log(error);
 
   });
 
