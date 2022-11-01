@@ -59,6 +59,20 @@ function Home() {
   const deposits = tickets.filter((item) => item.type === "deposit").length;
   const all = tickets.length;
 
+  function formatNumberWithDollar(number) {
+    let formatting_options = {
+       style: 'currency',
+       currency: 'USD',
+       minimumFractionDigits: 2,
+    }
+    // users can see how locale passed as a parameter.
+    let dollarString = new Intl.NumberFormat("en-US", formatting_options);
+    let finalString = dollarString.format(number);
+
+    return(finalString)
+
+ }
+
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -283,7 +297,7 @@ function Home() {
               color={"#7A4F01"}
               context={"Balance"}
               bgcolor={"#FFF7CD"}
-              figure={bankBalance}
+              figure={formatNumberWithDollar(bankBalance)}
               icon={<HiIcons.HiOutlineTicket />}
             ></Datacard>
           </Grid>

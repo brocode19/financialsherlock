@@ -41,7 +41,7 @@ function Datacard(props) {
 
                 </div>
 
-      <Typography variant="h3">{props.figure}</Typography>
+      <Typography variant="h4">{props.figure}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {props.context}
