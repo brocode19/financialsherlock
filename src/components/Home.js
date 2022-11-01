@@ -196,6 +196,50 @@ function Home() {
       details: item.details,
       time: item.time,
     });
+
+    const docRe = doc(db, "balance", "ayo");
+    const docSnap = await getDoc(docRe);
+
+    let value = 0;
+    
+
+    if (docSnap.exists()) {
+      const balance = docSnap.data();
+      value = parseInt(balance.money)
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+    if(item.type === 'expense'){
+
+      const amount = parseInt(item.amount)
+
+      const x = (value + amount)
+
+      console.log(amount,'amount',value,'value');
+
+      await setDoc(doc(db, "balance", "ayo"), {
+        money: x,  
+      });
+
+      setBankBalance(x)
+
+    }
+    if(item.type === 'deposit'){
+
+      const amount = parseInt(item.amount)
+
+      const x = ((value - amount))
+
+      await setDoc(doc(db, "balance", "ayo"), {
+        money: x,  
+      });
+
+      setBankBalance(x)
+
+    }
+
     await deleteDoc(doc(db, "tickets", id));
   };
 
