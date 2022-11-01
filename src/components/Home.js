@@ -29,25 +29,6 @@ function Home() {
         querySnapshot.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
           setTickets(list);
-
-          if (list.filter((item) => item.type === "expense").length > 0) {
-            setTotal(
-              list
-                .filter((item) => item.type === "expense")
-                .map((item) => {
-                  return parseInt(item.amount);
-                })
-            );
-          }
-          if (list.filter((item) => item.type === "deposit").length > 0) {
-            setDeposit(
-              list
-                .filter((item) => item.type === "deposit")
-                .map((item) => {
-                  return parseInt(item.amount);
-                })
-            );
-          }
         });
 
         const docRef = doc(db, "balance", "ayo");
@@ -68,37 +49,16 @@ function Home() {
     fetchData();
   }, []);
 
-  const [total, setTotal] = useState([0]);
-  const [deposit, setDeposit] = useState([0]);
-  const [bankBalance, setBankBalance] = useState(0);
+  const [bankBalance, setBankBalance] = useState(0)
 
   console.log(bankBalance);
 
 
-  
-
-
-  const expenseTotal = total.reduce(function (x, y) {
-    return x + y;
-  });
-  const depositTotal = deposit.reduce(function (x, y) {
-    return x + y;
-  });
-
-  const finance = bankBalance;
-
-  
-
-
-
-  console.log(typeof(expenseTotal), "expense");
-  console.log(typeof(depositTotal), "deposit");
-
-
-
-
   const [tickets, setTickets] = useState([]);
   const expenses = tickets.filter((item) => item.type === "expense").length;
+  const deposits = tickets.filter((item) => item.type === "deposit").length;
+  const all = tickets.length;
+
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -123,7 +83,53 @@ function Home() {
       [name]: value,
     });
   }
+
   const handleSubmit = async () => {
+
+    const docRe = doc(db, "balance", "ayo");
+    const docSnap = await getDoc(docRe);
+
+    let value = 0;
+    
+
+    if (docSnap.exists()) {
+      const balance = docSnap.data();
+      value = parseInt(balance.money)
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+    if(ticketInput.type === 'expense'){
+
+      const amount = parseInt(ticketInput.amount)
+
+      const x = (value - amount)
+
+      console.log(amount,'amount',value,'value');
+
+      await setDoc(doc(db, "balance", "ayo"), {
+        money: x,  
+      });
+
+      setBankBalance(x)
+
+    }
+    if(ticketInput.type === 'deposit'){
+
+      const amount = parseInt(ticketInput.amount)
+
+      const x = ((value + amount))
+
+      await setDoc(doc(db, "balance", "ayo"), {
+        money: x,  
+      });
+
+      setBankBalance(x)
+
+    }
+
+
     const docRef = await addDoc(collection(db, "tickets"), ticketInput);
 
     let list = [];
@@ -133,36 +139,7 @@ function Home() {
       list.push({ id: doc.id, ...doc.data() });
       setTickets(list);
     });
-
-    if (list.filter((item) => item.type === "expense").length > 0) {
-      setTotal(
-        list
-          .filter((item) => item.type === "expense")
-          .map((item) => {
-            return parseInt(item.amount);
-          })
-      );
-    }
-
-    if (list.filter((item) => item.type === "deposit").length > 0) {
-      setDeposit(
-        list
-          .filter((item) => item.type === "deposit")
-          .map((item) => {
-            return parseInt(item.amount);
-          })
-      );
-    }    
-
-    await setDoc(doc(db, "balance", "ayo"), {
-      money: finance - expenseTotal  
-    });
-
-   
-
-
-
-
+  
   };
 
   
@@ -284,7 +261,7 @@ function Home() {
               color={"#061B64"}
               context={"Total Entries"}
               bgcolor={"#D1E9FC"}
-              figure={"500"}
+              figure={all}
               icon={<AiIcons.AiOutlineFundProjectionScreen />}
             ></Datacard>
           </Grid>
@@ -295,7 +272,7 @@ function Home() {
               color={"#04297A"}
               context={"Deposit(s)"}
               bgcolor={"#D0F2FF"}
-              figure={"7"}
+              figure={deposits}
               icon={<MdIcons.MdPriorityHigh />}
             ></Datacard>
           </Grid>
@@ -304,9 +281,9 @@ function Home() {
             <Datacard
               iconCircle={"#F9EEBD"}
               color={"#7A4F01"}
-              context={"Remaining Balance"}
+              context={"Balance"}
               bgcolor={"#FFF7CD"}
-              figure={"20"}
+              figure={bankBalance}
               icon={<HiIcons.HiOutlineTicket />}
             ></Datacard>
           </Grid>
