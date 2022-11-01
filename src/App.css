@@ -168,6 +168,7 @@ aside .sidebar{
   align-items: center;
   position: fixed;
   width: 80vw;
+  z-index: 2;
 
 
 }
@@ -221,6 +222,7 @@ aside .sidebar{
     left: -100px;
     animation: showMenu 400ms ease forwards;
     z-index: 1;
+    
   }
 
   @keyframes showMenu {
@@ -235,7 +237,7 @@ aside .sidebar{
   }
 
   .pages{
-    margin-top: 100px;
+    margin-left: 0;
     
   }
   
