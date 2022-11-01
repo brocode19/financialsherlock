@@ -129,7 +129,7 @@ function Home() {
       setBankBalance(x)
 
     }
-    if(ticketInput.type === 'deposit'){
+    if(ticketInput.type === 'deposit' || ticketInput.type === 'income'){
 
       const amount = parseInt(ticketInput.amount)
 
@@ -153,6 +153,17 @@ function Home() {
       list.push({ id: doc.id, ...doc.data() });
       setTickets(list);
     });
+
+    setTicketInput({
+      amount: "",
+      to: "",
+      type: "",
+      details: "",
+      timestamp: serverTimestamp(),
+      time: year + "-" + month + "-" + hour + ":" + minutes,
+    })
+
+
   
   };
 
@@ -226,7 +237,7 @@ function Home() {
       setBankBalance(x)
 
     }
-    if(item.type === 'deposit'){
+    if(item.type === 'deposit' || ticketInput.type === 'income'){
 
       const amount = parseInt(item.amount)
 
@@ -248,13 +259,13 @@ function Home() {
     {
       field: "time",
       headerName: "Date",
-      width: 110,
+      width: 150,
       editable: true,
     },
     {
       field: "amount",
       headerName: "Amount",
-      width: 100,
+      width: 150,
       editable: true,
     },
     {
@@ -272,7 +283,7 @@ function Home() {
     {
       field: "details",
       headerName: "Detail",
-      width: 450,
+      width: 350,
       editable: true,
     },
   ];
@@ -285,13 +296,13 @@ function Home() {
       renderCell: (params) => {
         return (
           <>
-            <Button
+            {/* <Button
               variant="secondary"
               onClick={() => handleClick(params.row.id)}
               size="sm"
             >
               <MdIcons.MdDelete />
-            </Button>
+            </Button> */}
 
             <Button
               variant="secondary"
@@ -369,7 +380,7 @@ function Home() {
             </Button>
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Transaction</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
@@ -391,7 +402,7 @@ function Home() {
                     <Form.Label>Amount</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="urgent/high/medium/low"
+                      placeholder="$"
                       onChange={handleChange}
                       value={ticketInput.amount}
                       name="amount"
@@ -402,10 +413,10 @@ function Home() {
                     className="mb-3"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label>To</Form.Label>
+                    <Form.Label>For</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Complete/In progress/new"
+                      placeholder="bread/fuel/chicken Inn"
                       onChange={handleChange}
                       value={ticketInput.to}
                       name="to"
@@ -416,10 +427,10 @@ function Home() {
                     className="mb-3"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label>type</Form.Label>
+                    <Form.Label>Type</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Issue/Bug/Feature request"
+                      placeholder="expense/deposit"
                       onChange={handleChange}
                       value={ticketInput.type}
                       name="type"
@@ -446,7 +457,7 @@ function Home() {
                   Close
                 </Button>
                 <Button variant="primary" onClick={handleSubmit}>
-                  submint Ticket
+                  submit
                 </Button>
               </Modal.Footer>
             </Modal>

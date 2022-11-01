@@ -95,6 +95,14 @@ const Users = () => {
       timeStap: serverTimestamp(),
     });
 
+    let list = [];       
+      const querySnapshot = await getDocs(collection(db, "users"));
+      querySnapshot.forEach((doc) => {
+        list.push({id: doc.id,...doc.data()})
+        setTeamMember(list)
+      
+      });
+
     setNewUser({
       fname: "",
       lname: "",
@@ -106,22 +114,7 @@ const Users = () => {
     <div className="pages mt-5 vh-100" >
       <Container maxWidth="xl">
         <Grid sx={{ py: 3 }} container spacing={2}>
-          <Grid item xs={12} md={6} lg={8}>
-          <Box sx={{ py:2,height: 450,backgroundColor:'white' }}>
-      <DataGrid
-        rows={teamMember}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
-      />
-    </Box>
-
-
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={4}>
           <Card
           sx={{
             py: 2,
@@ -145,7 +138,7 @@ const Users = () => {
 </Form.Group>
 
 <Form.Group className="mb-3" controlId="formBasicPassword">
-  <Form.Label>Interest</Form.Label>
+  <Form.Label>Last name</Form.Label>
   <Form.Control
     type="text"
     placeholder="last name"
@@ -156,7 +149,7 @@ const Users = () => {
 </Form.Group>
 
 <Form.Group className="mb-3" controlId="formBasicPassword">
-  <Form.Label>Term(months)</Form.Label>
+  <Form.Label>Email</Form.Label>
   <Form.Control
     type="text"
     placeholder="email"
@@ -167,7 +160,7 @@ const Users = () => {
 </Form.Group>
 
 <Form.Group className="mb-3" controlId="formBasicPassword">
-  <Form.Label>Term(months)</Form.Label>
+  <Form.Label>Password</Form.Label>
   <Form.Control
     type="password"
     placeholder="password"
@@ -189,6 +182,22 @@ const Users = () => {
 
 
           </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+          <Box sx={{ py:2,height: 450,backgroundColor:'white' }}>
+      <DataGrid
+        rows={teamMember}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+        disableSelectionOnClick
+        experimentalFeatures={{ newEditingApi: true }}
+      />
+    </Box>
+
+
+          </Grid>
+
         </Grid>
       </Container>
 
