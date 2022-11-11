@@ -108,7 +108,7 @@ function Home() {
 
     if (docSnap.exists()) {
       const balance = docSnap.data();
-      value = parseInt(balance.money)
+      value = parseInt((balance.money)*100)
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -116,30 +116,30 @@ function Home() {
 
     if(ticketInput.type === 'expense'){
 
-      const amount = parseInt(ticketInput.amount)
+      const amount = parseInt((ticketInput.amount) * 100)
 
       const x = (value - amount)
 
       console.log(amount,'amount',value,'value');
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: x,  
+        money: (x/100),  
       });
 
-      setBankBalance(x)
+      setBankBalance(x/100)
 
     }
     if(ticketInput.type === 'deposit' || ticketInput.type === 'income'){
 
-      const amount = parseInt(ticketInput.amount)
+      const amount = parseInt((ticketInput.amount) * 100)
 
       const x = ((value + amount))
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: x,  
+        money: (x/100),  
       });
 
-      setBankBalance(x)
+      setBankBalance(x/100)
 
     }
 
@@ -216,7 +216,7 @@ function Home() {
 
     if (docSnap.exists()) {
       const balance = docSnap.data();
-      value = parseInt(balance.money)
+      value = parseInt((balance.money)*100)
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
@@ -224,30 +224,43 @@ function Home() {
 
     if(item.type === 'expense'){
 
-      const amount = parseInt(item.amount)
+      const amount = parseInt((item.amount) * 100)
 
       const x = (value + amount)
 
       console.log(amount,'amount',value,'value');
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: x,  
+        money: (x/100),  
       });
 
-      setBankBalance(x)
+      setBankBalance(x/100)
 
     }
     if(item.type === 'deposit' || ticketInput.type === 'income'){
 
-      const amount = parseInt(item.amount)
+      const amount = parseInt((item.amount) * 100)
 
       const x = ((value - amount))
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: x,  
+        money: (x/100),  
       });
 
-      setBankBalance(x)
+      setBankBalance(x/100)
+
+    }
+    if(item.type === 'income' || ticketInput.type === 'income'){
+
+      const amount = parseInt((item.amount) * 100)
+
+      const x = ((value - amount))
+
+      await setDoc(doc(db, "balance", "ayo"), {
+        money: (x/100),  
+      });
+
+      setBankBalance(x/100)
 
     }
 
