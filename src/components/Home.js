@@ -5,6 +5,10 @@ import * as MdIcons from "react-icons/md";
 import * as HiIcons from "react-icons/hi";
 import { Button, Form, Modal } from "react-bootstrap";
 import { MultiSelect } from "react-multi-select-component";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   addDoc,
   collection,
@@ -44,34 +48,53 @@ function Home() {
       } catch (error) {
         console.log(error);
       }
+      const expenseArray = list.filter(x => x.type === 'expense')
+      console.log(expenseArray.reduce((a,b) => a + b,0));
+
+      console.log(expenseArray);
     };
 
     fetchData();
   }, []);
 
-  const [bankBalance, setBankBalance] = useState(0)
+  const [age, setAge] = React.useState("");
+
+  const handleSelect = (event) => {
+    setAge(event.target.value);
+    setTicketInput({
+      ...ticketInput,
+      type: event.target.value,
+    });
+  };
+
+  const [bankBalance, setBankBalance] = useState(0);
+
 
   console.log(bankBalance);
 
-
   const [tickets, setTickets] = useState([]);
+
+
   const expenses = tickets.filter((item) => item.type === "expense").length;
   const deposits = tickets.filter((item) => item.type === "deposit").length;
   const all = tickets.length;
+  const expenseAmount = tickets.filter(x => x.type === 'expense').map(x => Number(x.amount) ).reduce((a,b) => a + b,0)
+
 
   function formatNumberWithDollar(number) {
     let formatting_options = {
-       style: 'currency',
-       currency: 'USD',
-       minimumFractionDigits: 2,
-    }
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    };
     // users can see how locale passed as a parameter.
     let dollarString = new Intl.NumberFormat("en-US", formatting_options);
     let finalString = dollarString.format(number);
 
-    return(finalString)
+    return finalString;
+  }
 
- }
+  const tableData = tickets.map(x => ({...x,amount:formatNumberWithDollar(Number(x.amount))}) )
 
   const date = new Date();
   const year = date.getFullYear();
@@ -82,12 +105,13 @@ function Home() {
   const [ticketInput, setTicketInput] = useState({
     amount: "",
     to: "",
-    type: "",
+    type: age,
     details: "",
     timestamp: serverTimestamp(),
     time: year + "-" + month + "-" + hour + ":" + minutes,
   });
 
+  console.log(ticketInput.type,'type,',age);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -99,50 +123,43 @@ function Home() {
   }
 
   const handleSubmit = async () => {
-
     const docRe = doc(db, "balance", "ayo");
     const docSnap = await getDoc(docRe);
 
     let value = 0;
-    
 
     if (docSnap.exists()) {
       const balance = docSnap.data();
-      value = parseInt((balance.money)*100)
+      value = parseInt(balance.money * 100);
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
 
-    if(ticketInput.type === 'expense'){
+    if (ticketInput.type === "expense") {
+      const amount = parseInt(ticketInput.amount * 100);
 
-      const amount = parseInt((ticketInput.amount) * 100)
+      const x = value - amount;
 
-      const x = (value - amount)
-
-      console.log(amount,'amount',value,'value');
-
-      await setDoc(doc(db, "balance", "ayo"), {
-        money: (x/100),  
-      });
-
-      setBankBalance(x/100)
-
-    }
-    if(ticketInput.type === 'deposit' || ticketInput.type === 'income'){
-
-      const amount = parseInt((ticketInput.amount) * 100)
-
-      const x = ((value + amount))
+      console.log(amount, "amount", value, "value");
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: (x/100),  
+        money: x / 100,
       });
 
-      setBankBalance(x/100)
-
+      setBankBalance(x / 100);
     }
+    if (ticketInput.type === "deposit" || ticketInput.type === "income") {
+      const amount = parseInt(ticketInput.amount * 100);
 
+      const x = value + amount;
+
+      await setDoc(doc(db, "balance", "ayo"), {
+        money: x / 100,
+      });
+
+      setBankBalance(x / 100);
+    }
 
     const docRef = await addDoc(collection(db, "tickets"), ticketInput);
 
@@ -157,20 +174,12 @@ function Home() {
     setTicketInput({
       amount: "",
       to: "",
-      type: "",
+      type: age,
       details: "",
       timestamp: serverTimestamp(),
       time: year + "-" + month + "-" + hour + ":" + minutes,
-    })
-
-
-  
+    });
   };
-
-  
-
-
-
 
   const [show, setShow] = useState(false);
 
@@ -208,60 +217,55 @@ function Home() {
       time: item.time,
     });
 
+    setAge(item.type)
+
     const docRe = doc(db, "balance", "ayo");
     const docSnap = await getDoc(docRe);
 
     let value = 0;
-    
 
     if (docSnap.exists()) {
       const balance = docSnap.data();
-      value = parseInt((balance.money)*100)
+      value = parseInt(balance.money * 100);
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
 
-    if(item.type === 'expense'){
+    if (item.type === "expense") {
+      const amount = parseInt(item.amount * 100);
 
-      const amount = parseInt((item.amount) * 100)
+      const x = value + amount;
 
-      const x = (value + amount)
-
-      console.log(amount,'amount',value,'value');
+      console.log(amount, "amount", value, "value");
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: (x/100),  
+        money: x / 100,
       });
 
-      setBankBalance(x/100)
-
+      setBankBalance(x / 100);
     }
-    if(item.type === 'deposit' || ticketInput.type === 'income'){
+    if (item.type === "deposit" || ticketInput.type === "income") {
+      const amount = parseInt(item.amount * 100);
 
-      const amount = parseInt((item.amount) * 100)
-
-      const x = ((value - amount))
+      const x = value - amount;
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: (x/100),  
+        money: x / 100,
       });
 
-      setBankBalance(x/100)
-
+      setBankBalance(x / 100);
     }
-    if(item.type === 'income' || ticketInput.type === 'income'){
+    if (item.type === "income" || ticketInput.type === "income") {
+      const amount = parseInt(item.amount * 100);
 
-      const amount = parseInt((item.amount) * 100)
-
-      const x = ((value - amount))
+      const x = value - amount;
 
       await setDoc(doc(db, "balance", "ayo"), {
-        money: (x/100),  
+        money: x / 100,
       });
 
-      setBankBalance(x/100)
-
+      setBankBalance(x / 100);
     }
 
     await deleteDoc(doc(db, "tickets", id));
@@ -333,7 +337,7 @@ function Home() {
   return (
     <div className="pages mt-5">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        <Typography variant="h4" sx={{ mb: 5,color:'#497174' }}>
           Hi, Welcome back Jackie
         </Typography>
         <Grid container spacing={3}>
@@ -374,9 +378,9 @@ function Home() {
             <Datacard
               iconCircle={"#F7D1C7"}
               color={"#7A0C2E"}
-              context={"Expenses"}
+              context={`${expenses}-Expenses`}
               bgcolor={"#FFE7D9"}
-              figure={expenses}
+              figure={formatNumberWithDollar(expenseAmount)}
               icon={<AiIcons.AiOutlineBug />}
             ></Datacard>
           </Grid>
@@ -388,7 +392,7 @@ function Home() {
               size="sm"
               onClick={handleShow}
             >
-              {" "}
+              
               Add Ticket
             </Button>
             <Modal show={show} onHide={handleClose}>
@@ -429,7 +433,7 @@ function Home() {
                     <Form.Label>For</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="bread/fuel/chicken Inn"
+                      placeholder="bread/fuel/electricity"
                       onChange={handleChange}
                       value={ticketInput.to}
                       name="to"
@@ -441,14 +445,20 @@ function Home() {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label>Type</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="expense/deposit"
-                      onChange={handleChange}
-                      value={ticketInput.type}
-                      name="type"
-                      autoFocus
-                    />
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={age}
+                        label="Type"
+                        onChange={handleSelect}
+                      >
+                        <MenuItem value={"expense"}>Expense</MenuItem>
+                        <MenuItem value={"deposit"}>Deposit</MenuItem>
+                        <MenuItem value={"income"}>Income</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Form.Group>
                   <Form.Group
                     className="mb-3"
@@ -476,7 +486,7 @@ function Home() {
             </Modal>
             <Box sx={{ py: 2, height: 450, backgroundColor: "white" }}>
               <DataGrid
-                rows={tickets}
+                rows={tableData}
                 columns={columns.concat(actionColumn)}
                 pageSize={5}
                 rowsPerPageOptions={[5]}

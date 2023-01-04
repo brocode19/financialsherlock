@@ -104,7 +104,7 @@ aside{
   display: inline-block;
   position: fixed;
   left: 0;
-  background-color: #F6F6F9;
+  background-color: white;
   border-right: 2px #E0E4E8 dotted;
 }
 
@@ -116,18 +116,16 @@ aside .logo img{
 
 aside .top{
  display: flex;
- justify-content: center;
+ justify-content: space-around;
  gap: 0.8rem;
  background-color: white;
- background-color: #F6F6F9;
  margin-top: 1rem;
 
 
 }
 
 aside .logo{
-  display: flex;
-  gap: 0.8rem;
+  display: none;
 }
 
 aside .close{
@@ -139,7 +137,6 @@ aside .close{
 
 aside .sidebar{
   background-color: white;
-  background-color: #F6F6F9;
   position: relative;
   top: 5rem;
   display: flex;
@@ -152,6 +149,7 @@ aside .sidebar{
 
 .pages{
   margin-left: 20vw;
+  background-color: white;
 }
 
 /* top section */
@@ -159,7 +157,7 @@ aside .sidebar{
 
 .nav-bar{
 
-  background-color: #F6F6F9;
+  background-color: white;
   height: 50px;
   margin-left: 20vw;
   display: flex;
@@ -224,6 +222,12 @@ aside .sidebar{
     animation: showMenu 400ms ease forwards;
     z-index: 3;
     
+  }
+
+  aside .logo{
+    display: flex;
+    gap: 0.8rem;
+    justify-content: space-around;
   }
 
   @keyframes showMenu {

@@ -16,11 +16,11 @@ export const SidebarData = [
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'
   },
-  // {
-  //   title: 'Cash-flow',
-  //   path: '/Cashflow',
-  //   icon: <FaIcons.FaMoneyCheckAlt />,
-  //   cName: 'nav-text'
-  // },
+  {
+    title: 'Cash-flow',
+    path: '/Cashflow',
+    icon: <FaIcons.FaMoneyCheckAlt />,
+    cName: 'nav-text'
+  },
  
 ];

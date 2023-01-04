@@ -27,12 +27,12 @@ function Navbar() {
           
         }}>
               <div className='top'>
-                <div className='logo'>
+                <div  className='logo'>
                   <img className='profile-photo' src={logo} alt='logo'/>
-                  <h2>Jackie<span className='main'> Nehanda</span></h2>
+                  <h2>Jackie N</h2>
                 </div>
                 <IconContext.Provider
-                value={{ color: 'black', size:'2em' }}>
+                value={{ color: 'blue', size:'2em' }}>
                 <div className='close' id='close-btn'>
                 <AiIcons.AiOutlineClose onClick={handleClick}/>
                 </div>
@@ -84,10 +84,10 @@ function Navbar() {
                 <div className='user-info me-4'>
             
                 <div className='profile'>
-                    <div className='infor'>
+                    {/* <div className='infor'>
                         <p>hey, <b>Jackie</b> </p>
     
-                    </div>
+                    </div> */}
                     <div className='profile-photo'>
                         <img className='profile-photo' src={logo} alt='profile pic'/>
                     </div>
