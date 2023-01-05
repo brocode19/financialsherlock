@@ -23,6 +23,27 @@ function LoginPage(props) {
 
   const navigate = useNavigate()
 
+  const login = (e) =>{
+    setEmail('admin@gmail.com')
+    setPassword('12345678')
+    e.preventDefault()
+
+    const auth = getAuth();
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    props.setUser(true)
+
+    navigate('/')
+  })
+  .catch((error) => {
+    console.log(error);
+
+  });
+  }
+
   const handleSubmit = (e) =>{
     e.preventDefault()
 
@@ -52,7 +73,7 @@ function LoginPage(props) {
 
           <div className='d-flex flex-row ps-5 pt-5'>
             <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/>
-            <span className="h1 fw-bold mb-0">Logo</span>
+            <span className="h1 fw-bold mb-0">T||K</span>
           </div>
 
           <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
@@ -63,9 +84,18 @@ function LoginPage(props) {
             <MDBInput wrapperClass='mb-4 mx-5 w-100' label='Password' id='formControlLg1' type='password' size="lg" onChange={e=>setPassword(e.target.value)}/>
 
             <Button type='submint' onClick={handleSubmit} className="mb-4 px-5 mx-5 w-100" color='info' size='lg'>Login</Button>
+            <Button type='submint' onClick={login} className="mb-4 px-5 mx-5 w-100" color='info' size='lg'>Demo login</Button>
             {error && <p className='ms-5 trouble'>Incorrect email or password</p>}
-            <p className="small mb-5 pb-lg-3 ms-5"><a class="text-muted" href="#!">Forgot password?</a></p>
-            <p className='ms-5'>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
+
+            <div className='d-flex flex-row ps-5 pt-2'>
+            <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/>
+            <span className="p fw-bold mb-0">Email: admin@gmail.com</span>
+          </div>
+            <div className='d-flex flex-row ps-5 pt-2'>
+            <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/>
+            <span className="p fw-bold mb-0">password: 12345678</span>
+          </div>
+
 
           </div>
 
