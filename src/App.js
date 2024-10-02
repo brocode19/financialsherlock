@@ -10,10 +10,10 @@ import LoginPage from './pages/LoginPage';
 function App() {
 
   const [currentUser,setCurrentUser] = useState([]);
-  const [user,setUser] = useState(false)
+  const [user,setUser] = useState(true)
 
   const RequireAuth = ({children}) =>{
-    return user ? children : <Navigate to='/LoginPage'/>
+    return user ? children : <Navigate to='/'/>
   }
   return (
 

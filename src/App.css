@@ -104,8 +104,8 @@ aside{
   display: inline-block;
   position: fixed;
   left: 0;
-  background-color: white;
-  border-right: 2px #E0E4E8 dotted;
+  background-color: #16423C;
+  border-right: 2px #E0E4E8 ;
 }
 
 
@@ -118,25 +118,29 @@ aside .top{
  display: flex;
  justify-content: space-around;
  gap: 0.8rem;
- background-color: white;
+ background-color: #16423C;
  margin-top: 1rem;
 
 
 }
 
 aside .logo{
-  display: none;
+  /* display: none; */
+  display: flex;
+  gap: 0.7rem;
+  justify-content: start;
+
 }
 
 aside .close{
-  display: none;
+  /* display: none; */
 }
 
 
 /* Sidebar */
 
 aside .sidebar{
-  background-color: white;
+  background-color: #16423C;
   position: relative;
   top: 5rem;
   display: flex;
@@ -145,6 +149,10 @@ aside .sidebar{
   padding: var(--card-padding);
 
 
+}
+
+.sidebar{
+  background-color: #16423C;
 }
 
 .pages{
@@ -161,7 +169,7 @@ aside .sidebar{
   height: 50px;
   margin-left: 20vw;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   position: fixed;
   width: 80vw;
@@ -189,7 +197,7 @@ aside .sidebar{
 
 .sidebar-item{
   margin-right: 0.8rem;
-  color: #082f83;
+  color: #dde2ed;
   text-decoration: none;
 
 }
@@ -219,8 +227,10 @@ aside .sidebar{
     display: none;
     width: 250px;
     left: -100px;
-    animation: showMenu 400ms ease forwards;
+    background-color: #16423C;
+    animation: showMenu 200ms ease forwards;
     z-index: 3;
+   
     
   }
 
@@ -319,7 +329,11 @@ aside .sidebar{
  z-index: 2;
 }
 
+/* heading text color */
 
+.text_color{
+  color: #E0E4E8;
+}
 
 
 

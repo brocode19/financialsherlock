@@ -10,7 +10,7 @@ function Datacard(props) {
         margin: 'auto',
         display: 'flex',
         borderRadius: '50%',
-        alignItems: 'center',
+        alignItems: 'start',
         width: theme.spacing(8),
         height: theme.spacing(8),
         justifyContent: 'center',
@@ -22,12 +22,13 @@ function Datacard(props) {
     <Card
           sx={{
             py: 5,
+            paddingLeft: 3,
             boxShadow: 0,
-            textAlign: 'center',
+            textAlign: 'start',
             color: props.color,
             bgcolor: props.bgcolor,}}>
 
-                <div className='d-flex justify-content-center align-items-center'>
+                {/* <div className='d-flex justify-content-center align-items-center'>
                     <div className='cardIcon d-flex justify-content-center align-items-center'
                     style={{  backgroundColor: props.iconCircle}}>
                     <IconContext.Provider
@@ -39,12 +40,15 @@ function Datacard(props) {
 
                     </div>
 
-                </div>
+                </div> */}
 
-      <Typography variant="h4">{props.figure}</Typography>
+      <Typography variant="subtitle2">{props.context}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        {props.context}
+        {props.first_amount}
+      </Typography>
+      <Typography variant="subtitle2" >
+        <Typography variant='subtle2'>{props.second_context} </Typography>{props.second_amount}
       </Typography>
 
     </Card>

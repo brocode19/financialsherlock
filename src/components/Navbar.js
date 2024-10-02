@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import logo from './avatars/avatar_1.jpg'
+import profile_pic from './avatars/norkias.jpeg'
 import { IconContext } from 'react-icons';
 
 function Navbar() {
@@ -28,11 +28,11 @@ function Navbar() {
         }}>
               <div className='top'>
                 <div  className='logo'>
-                  <img className='profile-photo' src={logo} alt='logo'/>
-                  <h2>Jackie N</h2>
+                  <img className='profile-photo' src={profile_pic} alt='logo'/>
+                  <h2 className='text_color'>Norkias</h2>
                 </div>
                 <IconContext.Provider
-                value={{ color: 'blue', size:'2em' }}>
+                value={{ color: 'white', size:'1.2em' }}>
                 <div className='close' id='close-btn'>
                 <AiIcons.AiOutlineClose onClick={handleClick}/>
                 </div>
@@ -89,7 +89,7 @@ function Navbar() {
     
                     </div> */}
                     <div className='profile-photo'>
-                        <img className='profile-photo' src={logo} alt='profile pic'/>
+                        <img className='profile-photo' src={profile_pic} alt='profile pic'/>
                     </div>
                 </div>
                     
